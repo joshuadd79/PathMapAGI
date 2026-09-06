@@ -1,0 +1,704 @@
+<!--
+/*
+ * Copyright 2026 Joshua Dungan / Artificial General Intelligence LLC
+ * https://pathmap.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+--><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="PATHMAP STUDIO: TRUTH SERUM FOR AIРёб, A UNIVERSAL AI WORKBENCHРёб">
+    <meta name="keywords" content="PathMap, PathMap Studio, AI Research Agent, Veridical AI, Semantic Drift Gating, PubMed Analysis">
+    <meta name="author" content="Artificial General Intelligence LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://pathmap.org/">
+
+    <title>[[[ui_page_title]]] - [[[ui_page_title]]]</title>
+    
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' 'unsafe-inline';
+      connect-src 'self' https://generativelanguage.googleapis.com https://api.openai.com https://openrouter.ai https://*.ncbi.nlm.nih.gov https://api.openalex.org https://en.wikipedia.org https://export.arxiv.org https://pathmap.org;
+      img-src 'self' data: https://pathmap.org;
+      font-src 'self';
+    ">
+
+    <script src="pathmap_files/mermaid.min.js"></script>
+    <script src="pathmap_files/dompurify.min.js"></script>
+    <script src="pathmap_files/app.js" defer></script>
+    
+    <!-- Link to our new Clinical Stylesheet -->
+    <link rel="stylesheet" href="pathmap_files/stylesheet.css">
+<link rel="icon" type="image/x-icon" href="https://pathmap.org/logo.png"></head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div id="learningOverlay" class="full-overlay">
+    <h2 id="learningProgressText">[[[ui_learning_researching]]]</h2>
+    <div id="statusLog" class="status-area" aria-live="polite" aria-atomic="false">[[[ui_log_ready]]]</div>
+    <div class="learning-spinner"></div>
+    <p class="overlay-subtitle">[[[ui_building_dataset]]]</p>
+    <button id="cancelBtn" class="btn btn-danger">[[[ui_btn_cancel]]]</button>
+    <div id="sponsorRotator" style="display:none;"></div>
+</div>
+
+<div class="app-container" id="appRoot">
+
+    <!-- TOP NAVIGATION -->
+    <header class="top-nav">
+        <div class="nav-brand">
+            <h1>PathMap <span>Studio</span></h1>
+            <small>[[[ui_h1_small]]]</small>
+        </div>
+        <div class="nav-controls">
+            <div id="keyStatusLine" style="display:none;" class="key-status">[[[ui_status_no_key]]]</div>
+            <div id="headerModelContainer" style="display: flex; gap: 10px;">
+                <select id="quickModelSelect"  style="display: none;">
+                    <option value="gemini-3.1-pro">[[[opt_gemini_31_pro]]]</option>
+                    <option value="gemini-3.1-flash-lite" selected>[[[opt_gemini_31_flash_lite]]]</option>
+                    <option value="gemini-3-flash-preview">[[[opt_gemini_3_flash_preview]]]</option>
+                    <option value="gemma-4-31b-it">[[[opt_gemma_4_31b]]]</option>
+                    <option value="gemma-4-26b-a4b-it">[[[opt_gemma_4_26b]]]</option>
+                    <option value="gemini-2.5-pro">[[[opt_gemini_25_pro]]]</option>
+                    <option value="gemini-2.5-flash">[[[opt_gemini_25_flash]]]</option>
+                    <option value="gemini-2.5-flash-lite">[[[opt_gemini_25_flash_lite]]]</option>
+                </select>
+                <button id="logoutBtn" class="btn btn-danger" style="display: none;">Logout</button>
+            </div>
+            <button id="headerLoginBtn" class="btn btn-primary">[[[ui_btn_connect_api]]]</button>
+        </div>
+    </header>
+
+    <!-- UTILITY BAR -->
+    <div class="utility-bar">
+        <a style='color:gold;' href="https://pathmap.org/" target="_blank">PathMap Home</a>
+        <a style='color:white;' href="https://pathmap.org/viewer.php" target="_blank">Research</a>
+
+        <a  style='color:lightgreen;' href="https://pathmap.org/alchemy" target="_blank">Play PathMap Alchemy</a>
+
+<a href="https://www.paypal.com/ncp/payment/U9B98SHJTMPRQ" target="_blank" rel="noopener noreferrer" style="color: #f59e0b; font-weight: bold;">Donate</a>
+
+<a href="https://github.com/joshuadd79/PathMapAGI" target="_blank" style="display: flex; align-items: center; gap: 6px; font-weight: 600;">
+                <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                GitHub
+            </a>
+        <div style="flex-grow: 1;"></div>
+        <button id="openDatapointsBtn" class="btn btn-text" disabled>+ [[[ui_btn_custom_dp]]]</button>
+        <button id="openPromptSettingsBtn" class="btn btn-text" disabled> [[[ui_btn_prompt_settings]]]</button>
+    </div>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="workspace">
+
+        <!-- LEGACY HIDDEN ELEMENTS (Required for app.js stability) -->
+        <div style="display:none;" aria-hidden="true">
+            <button id="toggleToonBtn"></button>
+            <div id="toon-card"><div id="toonAvatar"></div><span id="toonRarity"></span><h2 id="toonCardTitle"></h2><p id="toonBioText"></p><div id="toonLikesText"></div></div>
+            <button id="toggleKnowledgeBtn"></button>
+            <span class="sponsor-msg">[[[ui_sponsor_msg_1]]]</span>
+            <span class="sponsor-msg">[[[ui_sponsor_msg_2]]]</span>
+            <span class="sponsor-msg">[[[ui_sponsor_msg_3]]]</span>
+            <span class="sponsor-msg">[[[ui_sponsor_msg_4]]]</span>
+            <span class="sponsor-msg">[[[ui_sponsor_msg_5]]]</span>
+        </div>
+
+        <!-- 1. RESEARCH INPUT (CLAIM AREA) -->
+        <div class="panel-card" id="knowledgeDrawer">
+            <div class="panel-header">
+                <h3 id="claimLabel"> [[[ui_lbl_claim_normal]]]</h3>
+                <div style="display: block; gap: 10px;">
+                    <button id="demoBtn" class="btn btn-outline-warning">[[[ui_btn_demo]]]</button>
+                    <button id="uploadClaimBtn" class="btn btn-secondary">[[[ui_btn_append_claim]]]</button>
+                    <input type="file" id="claimFileInput" accept=".txt" style="display:none;">
+                </div>
+            </div>
+            
+            <textarea id="claimInput" rows="4" placeholder=""></textarea>
+            
+            <div class="claim-actions">
+                <div class="checkbox-group">
+                    <label class="custom-checkbox">
+                        <input checked type="checkbox" id="appendToTraceCb" > [[[ui_cb_add_trace]]]
+                    </label>
+                    <label class="custom-checkbox">
+                        <input  checked type="checkbox" id="autosaveCb" > [[[ui_cb_autosave]]]
+                    </label>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="doAnotherBtn" class="btn btn-danger-outline">[[[ui_btn_clear]]]</button>
+                    <button id="runFactCheckBtn" class="btn btn-success"> [[[ui_btn_launch]]]</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. CONFIGURATION MATRIX -->
+        <div class="panel-card" id="controlsPanel">
+            <div class="panel-header">
+                <h3> Configuration Matrix</h3>
+                <button id="toggleControlsBtn" class="btn btn-secondary">[[[ui_btn_hide_controls]]]</button>
+            </div>
+            
+            <div id="contextWarning" class="alert-warning" style="display: none;">
+                [[[ui_warn_context]]]
+            </div>
+
+            <div id="controlsGrid" style="display: block;">
+                <div id="joshscall">
+                    <!-- Group A: Core Pipeline Routing -->
+                    <div class="config-section">
+                        <div class="settings-grid">
+                            <div class="input-group">
+                                <label>[[[ui_lbl_analysis_mode]]]</label>
+                                <select id="analysisMode">
+                                    <option value="Social">[[[opt_mode_social]]]</option>
+                                    <option value="Semmelweis">[[[opt_mode_semmelweis]]]</option>
+                                    <option value="Matrix">[[[opt_mode_matrix]]]</option>
+                                    <option value="PathMapper">[[[opt_mode_pathmapper]]]</option>
+                                    <option value="Phenotype">[[[opt_mode_phenotype]]]</option>
+                                    <option value="Forensic" selected >[[[opt_mode_forensic]]]</option>
+                                    <option value="Alignment">[[[opt_mode_alignment]]]</option>
+                                    <option value="Flexible">[[[opt_mode_flexible]]]</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>[[[ui_lbl_library]]]</label>
+                                <select id="librarySelect">
+                                    <option selected value="PubMed">[[[opt_lib_pubmed]]]</option>
+                                    <option value="OpenAlex">[[[opt_lib_openalex]]]</option>
+                                    <option value="Wikipedia">[[[opt_lib_wiki]]]</option>
+                                    <option value="arXiv">[[[opt_lib_arxiv]]]</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>[[[ui_lbl_format]]]</label>
+                                <select id="outputFormat">
+                                    <option value="Standard">[[[opt_fmt_standard]]]</option>
+                                    <option selected value="Preprint">[[[opt_fmt_preprint]]]</option>
+                                    <option value="Clinical" >[[[opt_fmt_clinical]]]</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>[[[ui_lbl_length]]]</label>
+                                <select id="outputLength">
+                                    <option value="Concise">[[[opt_len_concise]]]</option>
+                                    <option value="Standard" selected>[[[opt_len_standard]]]</option>
+                                    <option value="Comprehensive">[[[opt_len_comprehensive]]]</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>[[[ui_lbl_rigor]]]</label>
+                                <select id="rigorToggle">
+                                    <option value="Heuristic">[[[opt_rigor_heuristic]]]</option>
+                                    <option selected value="Strict">[[[opt_rigor_strict]]]</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>[[[ui_lbl_semantic]]]</label>
+                                <select id="tagCloudToggle">
+                                    <option selected value="on">[[[opt_sem_on]]]</option>
+                                    <option value="off">[[[opt_sem_off]]]</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flexible Command Hidden Box -->
+                    <div style='display:none;' id="flexibleModeControls" class="flexible-box">
+                        <label>[[[ui_lbl_flexible_cmd]]]</label>
+                        <input type="text" id="flexibleCommandInput" placeholder="[[[ui_placeholder_flex]]]">
+                        <div style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button id="uploadFlexiblePromptBtn" class="btn btn-secondary">[[[ui_btn_upload_flex]]]</button>
+                            <input type="file" id="flexiblePromptFileInput" accept=".txt" style="display:none;">
+                        </div>
+                    </div>
+
+                    <!-- Group B: Execution Thresholds -->
+                    <div class="config-section">
+                        <div class="settings-grid">
+                            <div class="slider-group">
+                                <label>[[[ui_lbl_api_delay]]] <input type="number" id="apiDelayValInput" value="5.0" step=".50" min="3.0" max="120"></label>
+                                <input type="range" id="apiDelaySlider" min="3.0" max="120" step="0.5" value="5.0">
+                            </div>
+                            <div class="slider-group">
+                                <label>[[[ui_lbl_breadth]]] <input type="number" id="breadthValInput" value="10"></label>
+                                <input type="range" id="breadthSlider" min="1" max="500" value="10">
+                            </div>
+                            <div class="slider-group">
+                                <label>[[[ui_lbl_depth]]] <input type="number" id="depthValInput" value="10"></label>
+                                <input type="range" id="depthSlider" min="1" max="500" value="10">
+                            </div>
+                            <div class="slider-group">
+                                <label>[[[ui_lbl_quotes]]] <input type="number" id="quotesValInput" value="10"></label>
+                                <input type="range" id="quotesSlider" min="3" max="100" value="10">
+                            </div>
+                            <div class="slider-group">
+                                <label>[[[ui_lbl_evals]]] <input type="number" id="evalsPerRunInput" value="1"></label>
+                                <input type="range" id="evalsPerRunSlider" min="1" max="100" value="1">
+                            </div>
+                            <div class="slider-group">
+                                <label>[[[ui_lbl_respect]]] <input type="number" id="intentRespectInput" value="20"></label>
+                                <input type="range" id="intentRespectSlider" min="0" max="100" value="20">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group C: Metadata & Advanced -->
+                    <div class="settings-grid">
+                        <div class="input-group">
+                            <label>[[[ui_lbl_max_context]]]</label>
+                            <input type="number" id="contextLimit" value="512000" placeholder="[[[ui_placeholder_context]]]">
+                        </div>
+                        <div class="input-group">
+                            <label>[[[ui_lbl_runs]]]</label>
+                            <input type="number" id="buildRuns" min="1" max="100" value="3">
+                        </div>
+                        <div class="input-group">
+                            <label>[[[ui_lbl_author_watermark]]]</label>
+                            <input type="text" id="authorName" value="Joshua Dungan, PathMap.org Admin">
+                        </div>
+                        <div class="input-group">
+                            <label>[[[ui_lbl_agents]]]</label>
+                            <div class="toggle-box">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" id="autoExploreCb"> [[[ui_cb_auto_explore]]]
+                                </label>
+                                <label class="custom-checkbox" style="border-top: 1px solid var(--border-color); padding-top: 8px;">
+                                    <input type="checkbox" id="smartFollowUpCb" disabled> [[[ui_cb_smart_follow]]]
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. DATA OPERATIONS BAR -->
+        <div class="data-ops-bar" id="joshscall2">
+            <span class="ops-label">Data Operations:</span>
+            
+            <button id="uploadEvidenceBtn" class="btn btn-outline-success">+ [[[ui_btn_load_evidence]]]</button>
+            <button id="clearEvidenceBtn" class="btn btn-danger" style="display:none;" title="Clear Custom Evidence">Clear</button>
+            <input type="file" id="evidenceFileInput" accept=".txt,.json" multiple style="display:none;">
+            
+            <div class="v-divider"></div>
+
+            <input type="file" id="traceFileInput" accept="*" style="display: none;">
+            <button id="loadTraceBtn" class="btn btn-secondary">[[[ui_btn_load_trace]]]</button>
+            <button id="restoreSessionBtn" class="btn btn-outline-warning" style="display: none;">[[[ui_btn_restore]]]</button>
+            
+            <input type="file" id="mergeFileInput" accept="*" style="display: none;">
+            <button id="mergeTraceBtn" class="btn btn-secondary">[[[ui_btn_merge]]]</button>
+            
+            <div class="v-divider"></div>
+            
+            <button id="revalidateBtn" class="btn btn-primary" style="display: block;">[[[ui_btn_rebuild_vis]]]</button>
+            
+            <div id="customEvidenceList" class="evidence-list"></div>
+        </div>
+
+        <!-- 4. ANALYTICAL SYNTHESIS TERMINAL (Assistant) -->
+        <div class="panel-card" id="assistantPanel" style="border-color: var(--accent-primary);">
+            <div class="panel-header">
+                <h3 style="color: var(--accent-primary);"> Analytical Synthesis Terminal</h3>
+                <div class="token-tracker" id="tokenTracker"></div>
+            </div>
+            
+            <div class="alert-danger">[[[ui_assist_disclaimer]]]</div>
+            
+            <div id="joshscall3">
+                <div class="assistant-config-box">
+                    <div class="input-group">
+                        <label>[[[ui_lbl_ctx_target]]]</label>
+                        <div id="assistantCheckboxes" class="checkbox-list"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Terminal Directives</label>
+                        <div class="directives-list">
+                            <label class="switch-row">
+                                [[[ui_cb_chatlog_history]]]
+                                <label class="switch"><input type="checkbox" id="assistantHistoryCb" checked><span class="slider"></span></label>
+                            </label>
+                            <label class="switch-row">
+                                [[[ui_cb_semantic_drift]]]
+                                <label class="switch"><input type="checkbox" id="assistantDriftCb"><span class="slider"></span></label>
+                            </label>
+                            <label class="switch-row" style="color: var(--accent-success);">
+                                [[[ui_cb_veridical_check]]]
+                                <label class="switch"><input type="checkbox" id="assistantVeridicalCb" checked><span class="slider"></span></label>
+                            </label>
+<label class="switch-row" id="assistantCustomEvidenceContainer" style="display: none;">
+    [[[ui_cb_include_custom_evidence]]]
+    <label class="switch"><input type="checkbox" id="assistantCustomEvidenceCb" checked><span class="slider"></span></label>
+</label>                            
+                            <label class="dropdown-label">[[[ui_lbl_assistant_memory_mode]]]</label>
+                            <select id="assistantMemoryMode">
+                                <option value="groundhog">[[[opt_memory_groundhog]]]</option>
+                                <option value="puppy">[[[opt_memory_puppy]]]</option>
+                                <option value="dolphin" selected>[[[opt_memory_dolphin]]]</option>
+                                <option value="human">[[[opt_memory_human]]]</option>
+                                <option value="elephant">[[[opt_memory_elephant]]]</option>
+                                <option value="robot">[[[opt_memory_robot]]]</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group" style="grid-column: 1 / -1;">
+                        <label>[[[ui_lbl_load_prompt]]]</label>
+                        <select id="assistantPromptTemplates">
+                            <option value="Answer in English only. Begin with a clear Yes or No. Is the synthesis 100% veridical with the validated quotes? Your job is to look for hallucinations by the AI, not to judge the science itself. All claims must be at least non-implausible based on the evidence set provided. Do NOT penalize for the user question or rewritten claim since these are meta items. Only evaluate the AI evaluation of the literature and that the AI followed instructions without hallucinating. List and justify your judgements. Do not use markdown. DO NOT PENALIZE FOR THE USER QUERY WORDING OR REWRITE>>> THAT IS NOT PART OF THE ANSWER ... THAT IS THE QUESTION OR CLAIM EVALUATED.">[[[opt_assist_exec]]]</option>
+                            <option value="">[[[opt_assist_custom]]]</option>
+                            <option value="Answer in English only. Explain this data in simple terms for a non-expert.">[[[opt_assist_explain]]]</option>
+                            <option value="Answer in English only. You are an elite, highly analytical Computational Biologist and Academic Author specializing in Literature-Based Discovery (LBD), Systems Medicine, and Bioinformatics. 
+Your task is to synthesize the provided raw PathMap report trace into a cohesive, formal, and rigorously structured academic preprint manuscript formatted for arXiv submission (Quantitative Biology / Genomics / Bioinformatics).
+### CRITICAL RULES FOR VERIDICALITY:
+1. STRICT RAG AMNESIA ENFORCEMENT: You must ONLY use the biological relationships, genes, proteins, mechanisms, and factual claims explicitly present in the provided trace. Under no circumstances should you invent external biochemical pathways, prior art, or hypothetical interactions not documented in the input data.
+2. CITATION RIGOR: Every scientific assertion you write must be directly supported by its corresponding inline citation from the bibliography (e.g., '[1]' or 'PubMed ID: XXXXXX') as documented in the trace.
+3. BYTE-PERFECT QUOTING: When referencing the core evidence, you must incorporate the verbatim quotes exactly as they appear in the trace. Do not paraphrase or alter a single character.
+4. NO CONVERSATIONAL FILLER: Return ONLY the final Markdown manuscript. Do not include introductory remarks like 'Sure, here is your paper,' and do not include concluding remarks. Start directly with the title.
+
+---
+
+### REQUIRED MANUSCRIPT STRUCTURE:
+
+# [Title: Formulate a methodology-focused title, e.g., '[Complex Disease State (e.g. 'Long Covid', 'Early Onset Alzheimer's Disease')]: PathMap(tm) Analysis & Literature Based Discoveries']
+
+## Abstract
+- **Background:** Outline the specific clinical/pathological problem being investigated.
+- **Methods:** Explain the application of PathMap's local-first, veridical synthesis and 5x5 Pentamatrix logic to PubMed data.
+- **Results:** Summarize the core findings, the Overall Plausibility Score, and the primary Literature-Based Discovery (LBD).
+- **Conclusion:** Detail the immediate translational significance (e.g., targeted drug repurposing or diagnostic biomarkers).
+
+## 1. Introduction & Clinical Paradigm
+- Review the established medical baseline of the pathology as documented in the trace.
+- Address the critical limitations of standard cloud-based AI in medical research (e.g., the risk of hallucinated citations and public cloud IP leaks).
+- Detail how this study utilizes programmatic veridicality enforcement to secure research sovereignty.
+
+## 2. Methodology & Pentamatrix Adversarial Logic
+- Describe the 5-dimensional Pentamatrix auditing protocol used in this run (Raw, Optimized, Inverse, Adversarial, and Foundational).
+- Explain how the directional scoring works: why high scores on Inverse or Adversarial controls mathematically lower overall plausibility, while the Inverse-Adversarial serves as a foundational prerequisite.
+
+## 3. Results & Directional Evaluation
+- Present the calculated scoring breakdown for each of the five dimensions from the trace.
+- Detail the exact findings for each evaluated perspective, incorporating the inline citations.
+
+## 4. The Swanson Literature-Based Discovery (LBD)
+- Systematically break down the discovered LBD.
+- Detail the isolated sub-literatures: Domain A (Origin) and Domain C (Target).
+- Explain the molecular behavior of the Intersecting Bridge B (the shared mechanism) that independently connects them.
+- Outline the biological rationale proving why this hidden connection is mechanistically plausible.
+
+## 5. Discussion: Repurposed Solutions & Clinical Translation
+- Analyze any repurposed pharmacological solutions or therapeutic targets identified in the trace.
+- Emphasize immediate patient utility, prioritizing low-cost, currently available compounds (such as off-label or generic drugs) over long-term drug development pipelines.
+
+## 6. Proposed Validation Framework (Suggested Experiments)
+- Formulate the 'Suggested Experiments' and 'Suggested Studies' from the trace into a concrete, step-by-step experimental roadmap for in-vitro and in-vivo laboratory validation.
+
+## 7. Evidence Dossier & Verbatim Quote Audit
+- Provide the verified verbatim quotes and justifications from the trace, organized by their respective PubMed IDs.
+
+## 8. Mapped Reference Directory (Bibliography)
+- List the full APA bibliography as provided in the trace, ensuring all PubMed ID numbers are linked.You are an elite, highly analytical Computational Biologist and Academic Author specializing in Literature-Based Discovery (LBD), Systems Medicine, and Bioinformatics. 
+
+Your task is to synthesize the provided raw PathMap report trace into a cohesive, formal, and rigorously structured academic preprint manuscript formatted for arXiv submission (Quantitative Biology / Genomics / Bioinformatics).">[[[opt_assist_contradict]]]</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <textarea id="assistantQueryInput" rows="3" placeholder="[[[ui_placeholder_assist]]]"></textarea>
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button id="askAssistantBtn" class="btn btn-primary">[[[ui_btn_ask_ai]]]</button>
+                <button id="cancelAssistantBtn" class="btn btn-danger" style="display:none;">[[[ui_btn_cancel_ai]]]</button>
+            </div>
+            
+            <div id="assistantResponseArea" class="assistant-response"></div>
+        </div>
+
+        <!-- 5. DELIVERY ENGINE (Results) -->
+        <div class="panel-card" id="resultPanel">
+            <div id="joshscall4">
+                <div class="panel-header">
+                    <h3> [[[ui_panel_result]]]</h3>
+                    <div class="delivery-actions">
+                        <input type="text" id="postUrlInput" placeholder="A custom API URL to post to...">
+                        <button id="postUrlBtn" class="btn btn-secondary" disabled>[[[ui_btn_post]]]</button>
+                        <div class="v-divider"></div>
+                        <select id="printModeSelect" class="btn btn-secondary">
+                            <option value="all">[[[opt_print_all]]]</option>
+                            <option value="pathmap">[[[opt_print_pathmap]]]</option>
+                            <option value="json">[[[opt_print_json]]]</option>
+                            <option value="synthesis">[[[opt_print_synth]]]</option>
+                            <option value="citations">[[[opt_print_cite]]]</option>
+                            <option value="evidence">[[[opt_print_evi]]]</option>
+                            <option value="masterQuoteLog">[[[opt_print_mq_log]]]</option>
+                            <option value="validQuotes">[[[opt_print_vq]]]</option>
+                            <option value="failedQuotes">[[[opt_print_fq]]]</option>
+                            <option value="cloud">[[[opt_print_cloud]]]</option>
+                            <option value="gates">[[[opt_print_gates]]]</option>
+                            <option value="analytics">[[[opt_print_analytics]]]</option>
+                            <option value="prompts">[[[opt_print_prompts]]]</option>
+                            <option value="buildlog">[[[opt_print_buildlog]]]</option>
+                            <option value="thoughtsLog">[[[opt_print_thoughts]]]</option>
+                            <option value="buildChat">[[[opt_print_chat]]]</option>
+                            <option value="chatlog_puppy">[[[opt_print_chatlog_puppy]]]</option>
+                            <option value="chatlog_dolphin">[[[opt_print_chatlog_dolphin]]]</option>
+                            <option value="chatlog_human">[[[opt_print_chatlog_human]]]</option>
+                            <option value="chatlog_elephant">[[[opt_print_chatlog_elephant]]]</option>
+                            <option value="chatlog_robot">[[[opt_print_chatlog_robot]]]</option>
+                        </select>
+                        <button id="doPrintBtn" class="btn btn-primary" disabled> [[[ui_btn_do_print]]]</button>
+                        <button id="copyFinalResultBtn" class="btn btn-secondary" disabled> [[[ui_btn_copy]]]</button>
+                        <button id="exportJsonBtn" class="btn btn-secondary" disabled> [[[ui_btn_export]]]</button>
+                    </div>
+                </div>
+
+                <!-- Advanced Modules (Visualizations) -->
+                <div id="advancedModulesArea" class="visualizations-grid" style="display: none;">
+                    <div id="attractorBox" class="viz-box" style="display: none;">
+                        <h4>[[[ui_mod_attractor]]]</h4>
+                        <div id="tagsAttractorArea"></div>
+                    </div>
+                    <div id="cloudBox" class="viz-box" style="display: none;">
+                        <h4>[[[ui_mod_cloud]]]</h4>
+                        <div id="tagCloudArea"></div>
+                    </div>
+                </div>
+
+                <!-- Logic Maps -->
+                <div id="mermaidGatesContainer" class="viz-box" style="display: none;">
+                    <h4>[[[ui_mod_gates]]]</h4>
+                    <div id="mermaidGatesArea"></div>
+                </div>
+                
+                <div id="mermaidPathMapContainer" class="viz-box" style="display: none;">
+                    <h4>[[[ui_mod_pathmap]]]</h4>
+                    <div id="mermaidPathMapArea"></div>
+                </div>
+
+                <!-- Trace Output Area -->
+                <div id="finalResultArea" class="trace-output">
+                    <div id="authorshipHeader" class="authorship-header" style="display: none;"></div>
+                    <div id="resultContent">
+                        <pre>[[[ui_stream_wait]]]</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+        <p>[[[ui_footer_note]]]</p>
+        <div id="printFooterWatermark" class="print-footer-watermark"></div>
+        <p>PathMap Studio™ v1.0 - Open Source (Apache 2.0), software by Joshua Dungan, Artificial General Intelligence LLC, Grand Rapids, Michigan.</p>
+    </footer>
+
+</div>
+
+<!-- ========================================== -->
+<!-- MODALS (API Key, Datapoints, Prompts, License) -->
+<!-- ========================================== -->
+
+<!-- API KEY MODAL -->
+<div id="apiKeyModal" class="modal-overlay" style="display: none;" role="dialog">
+    <div class="modal-card">
+        <h3 id="modalApiTitle">[[[modal_api_title]]]</h3>
+        <p id="modalApiDesc" class="modal-desc">[[[modal_api_desc]]]</p>
+
+        <div class="input-group">
+            <label> [[[ui_lbl_provider]]]</label>
+            <select id="providerSelect">
+                <option value="gemini" selected>[[[opt_prov_gemini]]]</option>
+                <option value="openai">[[[opt_prov_openai]]]</option>
+                <option value="openrouter">[[[opt_prov_openrouter]]]</option>
+                <option value="localhost">[[[opt_prov_local]]]</option>
+                <option value="custom">[[[opt_prov_custom]]]</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label id="apiKeyLabel"> [[[ui_lbl_key_gemini]]]</label>
+            <input type="password" id="geminiApiKeyInput" autocomplete="off" style="font-family: var(--font-mono);">
+        </div>
+
+        <div class="input-group">
+            <label> [[[ui_lbl_ai_model]]]</label>
+            <div id="modalModelContainer">
+                <select id="modelSelect">
+                    <option value="gemini-3.1-pro">[[[opt_gemini_31_pro]]]</option>
+                    <option value="gemini-3.1-flash-lite" selected>[[[opt_gemini_31_flash_lite]]]</option>
+                    <option value="gemini-3-flash-preview">[[[opt_gemini_3_flash_preview]]]</option>
+                    <option value="gemma-4-31b-it">[[[opt_gemma_4_31b]]]</option>
+                    <option value="gemma-4-26b-a4b-it">[[[opt_gemma_4_26b]]]</option>
+                    <option value="gemini-2.5-pro">[[[opt_gemini_25_pro]]]</option>
+                    <option value="gemini-2.5-flash">[[[opt_gemini_25_flash]]]</option>
+                    <option value="gemini-2.5-flash-lite">[[[opt_gemini_25_flash_lite]]]</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label id="langOverrideLabel">[[[ui_lbl_lang_override]]] </label>
+            <input type="text" id="langOverrideInput" placeholder="[[[ui_placeholder_lang_override]]]" autocomplete="off">
+        </div>
+
+        <div class="modal-actions-col">
+            <button id="modalStartBtn" class="btn btn-primary" style="padding: 12px; font-size: 1rem;">[[[ui_btn_start_sess]]]</button>
+            <button id="modalSkipBtn" class="btn btn-secondary" style="padding: 12px;">[[[ui_btn_skip_connect]]]</button>
+        </div>
+        
+        <div class="modal-footer-links">
+            <a style='background-color:gold; color:blue; font-size:140%;' id="apiKeyHelpLink" href="https://aistudio.google.com/apikey" target="_blank">[[[ui_link_get_key]]] &rarr;</a>
+            <span>|</span>
+            <a id="modalLicenseLink" href="#"> [[[ui_link_license]]]</a>
+        </div>
+    </div>
+</div>
+
+<!-- DATAPOINTS MODAL -->
+<div id="datapointsModal" class="modal-overlay" style="display: none;" role="dialog">
+    <div class="modal-card" style="max-width: 650px;">
+        <h3 id="modalDpTitle">[[[modal_dp_title]]]</h3>
+        <p id="modalDpDesc" class="modal-desc">[[[modal_dp_desc]]]</p>
+
+        <div id="datapointsList" class="dp-list"></div>
+        <button id="addDatapointRowBtn" class="btn btn-secondary" style="margin-bottom: 1.5rem;">+ [[[ui_btn_add_dp]]]</button>
+        
+        <div id="datapointWarning" class="alert-warning" style="display:none; margin-bottom:1rem;">
+            [[[ui_warn_dp]]]
+        </div>
+        
+        <div class="modal-actions-row">
+            <button id="closeDatapointsBtn" class="btn btn-secondary">[[[ui_btn_cancel_gen]]]</button>
+            <button id="saveDatapointsBtn" class="btn btn-primary">[[[ui_btn_inject]]]</button>
+        </div>
+    </div>
+</div>
+
+<!-- PROMPT SETTINGS MODAL -->
+<div id="promptSettingsModal" class="modal-overlay" style="display: none;" role="dialog">
+    <div class="modal-card" style="max-width: 800px; max-height: 90vh;">
+        <h3 id="modalPsTitle">[[[modal_ps_title]]]</h3>
+        <p id="modalPsDesc" class="modal-desc">[[[modal_ps_desc]]]</p>
+        
+        <div class="modal-actions-row" style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+            <div style="display: flex; gap: 10px;">
+                <input type="file" id="promptFileInput" accept="*" style="display: none;">
+                <button id="loadPromptFileBtn" class="btn btn-secondary"> [[[ui_btn_load_json]]]</button>
+                <button id="exportPromptFileBtn" class="btn btn-secondary"> [[[ui_btn_export_json]]]</button>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button id="closePromptSettingsBtn" class="btn btn-secondary">[[[ui_btn_cancel_gen]]]</button>
+                <button id="savePromptSettingsBtn" class="btn btn-primary"> [[[ui_btn_save_apply]]]</button>
+            </div>
+        </div>
+        
+        <div id="promptEditorsContainer" class="prompt-editors"></div>
+    </div>
+</div>
+
+<!-- LICENSE MODAL -->
+<div id="licenseModal" class="modal-overlay" style="display: none;" role="dialog">
+    <div class="modal-card" style="max-width: 700px;">
+        <h3 id="modalLicTitle">[[[modal_lic_title]]]</h3>
+        <div class="license-text-box">
+<pre style="white-space: pre-wrap; font-family: inherit; margin: 0;">
+==========
+BASIC INSTRUCTIONS: 
+==========
+1. Click the "Connect to API" key in the top right corner of the app.
+2. Choose your AI model and enter your API key.  Your key is stored in ephemeral memory and not exposed outside of your browser or anywhere, as is the industry standard for this type of app model (bring your own AI key).
+NOTE. On the Connect API key page, you can translate the app into a different language (this was still being developed at the time of open source release, and at least one glitch is present where the AI or some data labels are still in English)
+3. Enter your query or prompt and select the settings you wish to use (there is a "Demo" button which will generate a theory and automatically run.  It finds some pretty interesting bio stuff sometimes all on its own!  Be sure to always read the Swanson's Discovery information the AI finds.)
+
+==========
+MANIFESTO
+==========
+
+FINAL NOTE from Joshua (the developer of this software):
+This software was originally made to help accelerate research and development of cures, by using proven literature such as PubMed data or OpenAlex data, or Wikipedia.  If you snoop through the code you will see that arXiv is also a hidden option.  I removed it because CORS settings need to be used as they do not allow origin=* in the API call alone.  I am not committing to maintaining the software going forward as I am beginning a new project which will be hosted at https://pathmap.org/alchemy.  
+
+The goal of the new project is to "gamify" science and knowledge through a free (not BYOAI Key model) AI interface that lets anyone mix two concepts and make veridical literature based discoveries.  I will personally be using it for things like "Magnolia and COPD"  and "Pulverized Magnolia Bark and Pulverized Sunflower Seeds" or "PDEVs and SIRT3", etc., in order to seed a scientific database of known plant derived extracellular vesicles, their known properties (e.g., cargo/payload size, hydrophilic/lipophilic/electrophilic data, SMILES strings, and any other helpful data that can be open-public in order to help scientists derive WHICH PDEVs would be the most effective fit/use for a pathology.  
+
+Using the PathMap software, I have published about using Ginger/Ginseng or other exosome sized PDEVs via intradermal hydrogel for "washout" delivery to localized lymphatic system targets, an idea I am putting here because it could be useful for treating breast cancer.  Research shows that it would stop metastasis from advancing to the next zone and allow targeted delivery of chemotherapy, potentially allowing a non-destructive version of chemo targeting versus blood delivered routes.  
+
+Another main discovery set I want to note before I open source the code is about genetic c9orf72 ALS.  I published about intranasal delivery of Spermidine-modified Ginger Derived Extracellular Vesicles.  The Spermidine mod targets the MARK2-eif5a axis which is helpful, not only for downregulating the MARK2 axis if it were needed - such as to potentially reduce DPRs in c9orf72 ALS - but more importantly, as a homing device / beacon system to deliver Cas9 CRISPR gene therapy.  This platform will also apply to NEK-1 ALS.  This platform does not apply to sporadic ALS, because the data shows that Sporadic ALS is a collapse in retinal-RGNEF via a toxin or toxin-like vector that steals retinal synaptic zinc, thereby removing the NMDA receptor "brake fluid".  The catch is the thermodynamic affinities:  The toxin must have a zinc affinity > glutamate (from synapse) but < than RGNEF which *could* create a mis-shuttling loop that floods Zinc to RGNEF proteins and causes rigidity.  Dr Michael Strong's work, and separately, Droppleman et al., show that if the RGNEF protein were to have its NF242 Terminal lose function or be sequestered, this could lead to TDP-43 proteinopathy.  97% of sALS patients had a TDP-43 biomarker in the retina.  I cannot find any congenitally blind sALS cases.  Schizophrenia is the only other disease I could find with such a "blindness shield" and it is related to corollary discharge in SD.  So why not also in sALS, I wondered.  Well, turns out that the NMDA brake fluid theft causes overexcitement in Retinal Ganglion Cells.  We know that the bad TDP-43 causes cryptic STMN2 missplicing in motor neurons, and I have no reason to doubt that it would cause cryptic missplicing in retinal ganglion STMN2.  All of this said, there were (are) two missing links which I can explain but not prove.  If the RGC overexcitement caused misfiring of corollary discharge AND, the bayesian brain feed forward models allow a "concensus" that could misinterpret laggy/unexpected CD (corollary discharge) as "instant movement", then the bayesian brain would also then calculate that the motor neurons or golgi tendon organs or pathways were fautly and increase the gain because the movement was reported by the brain itself (the eyes) as instant yet the peripheral sensor reported XX milliseconds.  I see it like a see-saw and it is plausible with PubMed science.   One issue was "how does this go retrograde from retina upstream?".   I cannot explain that but my research on Ebola leads me to think that this is the "ghost factor" in ALS: Some environmental toxins that "do not cause ALS" but are "associated with ALS" may be randomly forming toxic vector "clouds" by aerosolization of the toxin in a way that binds it to, or encapsulates it within, a plant derived extracellular vesicle, and the delivery is through the cribriform plate, bypassing the BBB and then moving *downstream* to the retina, not retrograde up!  All said, if my theories and views on sporadic ALS are correct, then either a bright light or total darkness (not sure of polarity, I need a Neuro-Ophthalmologist to consider it) would be **REQUISITE** for any long term cure of sporadic ALS because the bayesian brain will always raise the gain on signals to peripherals under this model until the eyes are not being trusted at all (eg, does total darkness therapy lower the trust weights on the eye feeds and allow the brain to trust the peripheral sensors without penalizing them for being reported as "late/slow"?).   Glaucoma is much like sALS in the retina from what I read, but the requirement of the optic nerve injury for Glaucoma may explain why there is an inverted occurrence between sALS and glaucoma - the brain knows not to trust the eyes as much and does not penalize.   I also posited that c9orf72 ALS upscaled p62 systems may explain why there is ZERO (that I could find) occurrence of the sALS retina TDP-43 signature found in c9orf72 ALS yet they both have the TDP-43 markers otherwise.  Vitreous fluid/humor data may show a different progression of c9ALS and sALS.  Also, c9ALS and FTLD are the same genetic defect and the mixing of the data with sALS data has made the current view of ALS confounding.  My models explain it differently and with consilience.  I hope you can use the software as I did and find the truth in the literature and help heal the land.
+
+And, Endometriosis and Ovarian Tumors... I published about how an injected hydrogel of moxa or borneal modified **ginger** EVs would be ideal for ovarian tumor therapy delivery because the borneal can likely "drill" through the hard outside of the tumor and the 6-shogaol that would be naturally within the ginger-evs is known to cause apoptosis in ovarian tumor cells.  While looking at endometriosis, I found that hyaluronic-acid modified ginger-evs would be the trick, but then after further consideration, using both the moxa/borneal and HA modified EVs for either endometriosis or ovarian tumor would potentially be a good thing to test.
+
+I can only show "the math" of the science with this PathMap software.  We will always need real human scientists and real researchers doing real lab work, and I hope that this software can help you connect the dots from Turkey+Pom for COPD diet ideas to figuring the next iPSC experiment you should do, or what thesis makes sense to write.
+
+All of that said, the 144 publishings on PathMap.org are also archived in the Zenodo community for PathMap, and there are no planned further publishings to that blog/resource as I move forward with PathMap Alchemy and PathMap Nutrition in the future.
+
+Enjoy the software and use it responsibly.  Sorry if there are any glitches and if someone or anyone chooses to start a GIT for this or their derivative works, it may be helpful.  The software is AS_IS and NO_WARRANTY so you will have to take it from here on those items.
+
+Finally, nearly all of this was done - created, tested, deployed, used, maintained, and marketed, from a 4GB metroPCS phone.  It was my vision that even a youth in Indonesia may have an idea about some cure or some thing that would greatly help humanity, and they they should not be disallowed due to lack of resource, language barriers, lack of technology or access to it, and so forth.  If my loved one were dying, I would not want even a single moment of delay.  That is why I published what I published, including 6-Shogaol and 10-shogaol and nutritional yeast with hi-maize cornstarch as a simple, humanitarian method that may upend the spread of the Ebola virus in DRC.  This is real science, and you can now read it for yourself.  Think... if that were global, you wouldn't hesitate to desperately search for prophylactic measures... they exist but nobody cared.  
+
+Now, I decentralize the potential for bioinformatics to you, to everyone.  Do not cause harm.  Remove the iniquity of the land at this time (greed), and heal the land.  
+
+Zech 3:9
+
+Joshua
+
+==========
+OPEN SOURCE SOFTWARE NOTICE
+==========
+
+The prior EULA license this software was released under is hereby revoked and replace immutably with the Apache 2.0 license. (Note that the patent which was pending would have its infringement powers effectively nullified by this open-source change.  See pathmap.org for more information
+
+/*
+ * Copyright 2026 Joshua Dungan / Artificial General Intelligence LLC
+ * https://pathmap.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+</pre>
+        </div>
+        <div class="modal-actions-row">
+            <button id="exitLicenseBtn" class="btn btn-danger-outline">[[[ui_btn_exit]]]</button>
+            <button id="agreeLicenseBtn" class="btn btn-success">[[[ui_btn_agree]]]</button>
+        </div>
+    </div>
+</div>
+
+<!-- TRANSLATION OVERLAY -->
+<div id="translationOverlay" class="full-overlay">
+    <div class="learning-spinner"></div>
+    <div style="width:80%; text-align:center;">
+        <h3 id="translationWaitText" style="margin-bottom: 20px; font-size: 1.2rem; color: #f8fafc;">[[[ui_translation_initializing]]]</h3>
+        <div id="translationStatusLog" class="status-area"></div>
+        <button id="cancelTranslationBtn" class="btn btn-danger">[[[ui_btn_cancel_plain]]]</button>
+    </div>
+</div>
+
+</body>
+</html>
