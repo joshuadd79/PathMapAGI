@@ -1,0 +1,1810 @@
+{
+  "$schema": "https://pathmap.org/schemas/v2/pdev-biological-simulation.json",
+  "$id": "https://pathmap.org/schemas/v2/pdev-biological-simulation.json",
+
+  "schema_version": "2.0.0",
+
+  "model": {
+    "simulation_id": "SIM_PDEV_2026_0906_N2B_001",
+    "timestamp": "2026-09-06T18:30:00Z",
+    "title": "In Silico Trans-Cribriform N2B Delivery: Spermidine-Functionalized Ginger Nanovesicles for C9orf72/NEK1 ALS/FTD Gene Editing",
+    "model_version": "2.0.0",
+    "domain": "pathology_microcosm",
+    "model_class": "hybrid",
+    "description": "Declarative biological model representing pathology, biological entities, compartments, extracellular vesicles, engineered modifications, cargo, interactions, transport, intracellular processes, mathematical relationships, interventions, perturbations, observables, simulation configuration, and evidence provenance.",
+    "intended_use": [
+      "interactive virtual Petri dish",
+      "pathology microcosm simulation",
+      "PDEV interaction simulation",
+      "treatment comparison",
+      "mechanistic network construction",
+      "ODE/PDE generation",
+      "stochastic simulation",
+      "agent-based simulation",
+      "Petri-net compilation",
+      "SymPy symbolic model generation"
+    ]
+  },
+
+  "provenance_policy": {
+    "principle": "Every parameter, biological relationship, mechanism, assumption, intervention, and simulation result should retain its provenance.",
+    "evidence_classes": [
+      "experimental",
+      "observational",
+      "clinical",
+      "computational",
+      "inferred",
+      "assumed",
+      "estimated",
+      "model_input",
+      "model_derived",
+      "user_modified"
+    ],
+    "confidence_levels": [
+      "very_low",
+      "low",
+      "moderate",
+      "high",
+      "very_high",
+      "not_assigned"
+    ],
+    "rules": {
+      "do_not_promote_model_output_to_fact": true,
+      "preserve_original_evidence": true,
+      "preserve_user_modifications": true,
+      "identify_assumptions": true,
+      "identify_inferences": true,
+      "identify_model_derived_values": true
+    }
+  },
+
+  "pathology": {
+
+    "target_disease": "Amyotrophic Lateral Sclerosis / Frontotemporal Dementia (ALS/FTD)",
+
+    "primary_genetic_lesions": [
+
+      {
+        "entity_id": "c9orf72_repeat",
+        "entity_type": "genetic_lesion",
+        "gene": "C9orf72",
+        "mutation_type": "Hexanucleotide Repeat Expansion (GGGGCC)n",
+        "pathogenic_mechanism": "RNA foci sequestration and dipeptide repeat protein (DPR) proteotoxicity (poly-GP, poly-GA)"
+      },
+
+      {
+        "entity_id": "nek1_variant",
+        "entity_type": "genetic_variant",
+        "gene": "NEK1",
+        "variant": "p.Arg561Cys (R561C)",
+        "pathogenic_mechanism": "Impaired DNA damage response and accelerated motor neuron apoptosis"
+      }
+
+    ],
+
+    "microenvironment": {
+
+      "assay_architecture": "Microfluidic Tri-Chamber Brain-on-a-Chip with Olfactory Mucosal Epithelial Barrier Interface",
+
+      "extracellular_conditions": {
+        "ph_basal": 7.35,
+        "ph_endosomal_target": 5.2,
+        "temperature_celsius": 37.0,
+        "interstitial_fluid_flow_rate_ul_min": 1.5,
+        "baseline_teer_ohms_cm2": 420
+      }
+
+    }
+  },
+
+  "entities": {
+
+    "motor_neuron": {
+
+      "entity_type": "cell",
+
+      "name": "Human iPSC-derived Cortical/Spinal Motor Neurons",
+
+      "ontology_ids": [],
+
+      "properties": {
+        "source_lineage": "Patient-Derived C9orf72 Repeat Carrier (CRISPR isogenic control paired)",
+        "density_cells_cm2": 150000
+      },
+
+      "surface_receptor_density": {
+        "low_density_lipoprotein_receptor_related_protein_1": {
+          "value": "High",
+          "qualitative_level": 3
+        },
+        "polyamine_transporter_complex": {
+          "value": "Moderate",
+          "qualitative_level": 2
+        },
+        "cd44_glycoprotein": {
+          "value": "Low",
+          "qualitative_level": 1
+        }
+      },
+
+      "baseline_state": {
+
+        "intranuclear_rna_foci_positive_cells_pct": {
+          "value": 78.4,
+          "unit": "%"
+        },
+
+        "poly_gp_dpr_concentration": {
+          "value": 450.2,
+          "unit": "pg/mL"
+        },
+
+        "cleaved_caspase_3_expression": {
+          "value": 3.8,
+          "unit": "fold"
+        },
+
+        "mea_mean_firing_rate": {
+          "value": 1.2,
+          "unit": "Hz"
+        }
+
+      }
+
+    },
+
+    "microglia": {
+
+      "entity_type": "cell",
+
+      "name": "Human iPSC-derived Microglia",
+
+      "ontology_ids": [],
+
+      "properties": {
+        "phenotype": "Reactive / Neuroinflammatory (DAM-like)",
+        "density_cells_cm2": 50000
+      },
+
+      "surface_receptor_density": {
+        "toll_like_receptor_4": {
+          "value": "High",
+          "qualitative_level": 3
+        },
+        "scavenger_receptor_class_b_cd36": {
+          "value": "High",
+          "qualitative_level": 3
+        },
+        "nlrp3_inflammasome_priming_state": {
+          "value": "Active / Primed"
+        }
+      },
+
+      "baseline_state": {
+
+        "il_1_beta_secretion": {
+          "value": 125.6,
+          "unit": "pg/mL"
+        },
+
+        "tnf_alpha_secretion": {
+          "value": 310.4,
+          "unit": "pg/mL"
+        },
+
+        "intracellular_reactive_oxygen_species": {
+          "value": 1890,
+          "unit": "RFU"
+        }
+
+      }
+
+    },
+
+    "olfactory_barrier": {
+
+      "entity_type": "barrier",
+
+      "name": "Primary Olfactory Ensheathing Cells & Mucosal Epithelium",
+
+      "properties": {
+        "function": "Simulated Perineural Fila Olfactoria Barrier (Cribriform Plate Interface)",
+        "mucus_layer_thickness_um": 12.5,
+        "ciliary_beat_frequency_hz": 11.2
+      }
+
+    },
+
+    "pdev_ginger": {
+
+      "entity_type": "extracellular_vesicle",
+
+      "name": "Ginger Exosome-Like Nanoparticle",
+
+      "properties": {
+
+        "botanical_chassis": {
+          "scientific_name": "Zingiber officinale",
+          "common_name": "Ginger",
+          "fraction_identifier": "GELN-F2",
+          "isolation_method": "Differential Ultracentrifugation with Sucrose Density Gradient (8%, 30%, 45%, 60%)"
+        },
+
+        "biophysics": {
+          "mean_hydrodynamic_diameter_nm": 132.4,
+          "polydispersity_index_pdi": 0.118,
+          "wild_type_zeta_potential_mv": -26.8,
+          "membrane_fluidity_anisotropy_index": 0.185
+        },
+
+        "membrane_lipidome_composition_pct": {
+          "phosphatidic_acid_pa": 42.5,
+          "monogalactosyldiacylglycerol_mgdg": 27.0,
+          "digalactosyldiacylglycerol_dgdg": 19.5,
+          "phosphatidylcholine_pc": 8.0,
+          "galactosylceramide_glccer": 3.0
+        }
+
+      }
+
+    },
+
+    "pdev_ginger_spermidine": {
+
+      "entity_type": "modified_extracellular_vesicle",
+
+      "base_entity": "pdev_ginger",
+
+      "modifications": {
+
+        "modification_strategy": "Covalent Surface Amine Functionalization / Polyamine Insertion",
+
+        "active_ligand": {
+          "name": "Spermidine",
+          "chemical_name": "1,8-diamino-4-azaooctane"
+        },
+
+        "surface_density_molecules_per_nm2": 14.2,
+
+        "engineered_zeta_potential_mv": -3.2
+
+      },
+
+      "functional_hypotheses": [
+        "Reduces repulsive mucosal electrostatic barriers",
+        "May enhance polyamine-transporter cellular internalization",
+        "May promote endosomal proton-sponge buffering"
+      ]
+
+    },
+
+    "delivery_matrix": {
+
+      "entity_type": "delivery_matrix",
+
+      "formulation_type": "Thermosensitive Mucoadhesive In Situ Sol-to-Gel Matrix",
+
+      "constituents": {
+        "poloxamer_407_pluronic_f127_pct": 18.5,
+        "poloxamer_188_pluronic_f68_pct": 4.0,
+        "quaternized_chitosan_pct": 0.5,
+        "deionized_aqueous_buffer": "q.s. 100%"
+      },
+
+      "rheological_properties": {
+        "sol_phase_viscosity_cp_at_20c": 65,
+        "gelation_temperature_celsius": 32.4,
+        "gel_phase_viscosity_cp_at_37c": 4800,
+        "gelation_speed_seconds": 18,
+        "mucoadhesive_force_n_m2": 14.8,
+        "vesicle_release_half_life_hours": 14.6
+      }
+
+    },
+
+    "cas9_rnp": {
+
+      "entity_type": "gene_editing_payload",
+
+      "properties": {
+        "payload_type": "Ribonucleoprotein (RNP) Complex",
+        "protein_component": "Engineered High-Fidelity SpCas9 (160 kDa)",
+        "guide_rna": "Dual sgRNA cassette targeting C9orf72 G4C2 Repeat Flanks and NEK1 Exon 8 Splice Junction"
+      }
+
+    },
+
+    "six_shogaol": {
+
+      "entity_type": "phytochemical",
+
+      "properties": {
+        "pubchem_cid": 5281794,
+        "canonical_smiles": "CCCCCC(=O)CC(=O)CCC1=CC(=C(C=C1)O)OC",
+        "concentration_ug_per_mg_protein": 8.4,
+        "logp": 3.42,
+        "mechanism": "Nrf2 activation and NF-kB p65 suppression"
+      }
+
+    },
+
+    "six_gingerol": {
+
+      "entity_type": "phytochemical",
+
+      "properties": {
+        "pubchem_cid": 442793,
+        "canonical_smiles": "CCCCCC(CC(=O)CCC1=CC(=C(C=C1)O)OC)O",
+        "concentration_ug_per_mg_protein": 14.2,
+        "logp": 2.50,
+        "mechanism": "NLRP3 inflammasome inhibition and anti-ferroptotic lipid stabilization"
+      }
+
+    },
+
+    "plant_mirna": {
+
+      "entity_type": "rna_payload",
+
+      "properties": {
+        "mirna_id": "zof-miR-7267-3p",
+        "human_target_mrna": "NFKB1 / RELA",
+        "copies_per_vesicle_mean": 12,
+        "target_alignment_energy_kcal_mol": -28.4
+      }
+
+    }
+
+  },
+
+  "compartments": {
+
+    "mucosal_surface": {
+      "type": "extracellular",
+      "properties": {
+        "mucus_layer_thickness_um": 12.5
+      }
+    },
+
+    "olfactory_interface": {
+      "type": "barrier",
+      "entities": [
+        "olfactory_barrier"
+      ]
+    },
+
+    "motor_neuron_compartment": {
+      "type": "cellular",
+      "entities": [
+        "motor_neuron"
+      ]
+    },
+
+    "microglia_compartment": {
+      "type": "cellular",
+      "entities": [
+        "microglia"
+      ]
+    },
+
+    "endosome": {
+      "type": "intracellular",
+      "properties": {
+        "ph": 5.2
+      }
+    },
+
+    "cytosol": {
+      "type": "intracellular"
+    },
+
+    "nucleus": {
+      "type": "intracellular"
+    }
+
+  },
+
+  "parameters": {
+
+    "pdev_size_nm": {
+      "value": 132.4,
+      "unit": "nm",
+      "source_entity": "pdev_ginger",
+      "evidence_class": "experimental",
+      "confidence": "moderate"
+    },
+
+    "pdev_native_zeta_mv": {
+      "value": -26.8,
+      "unit": "mV",
+      "source_entity": "pdev_ginger",
+      "evidence_class": "experimental",
+      "confidence": "moderate"
+    },
+
+    "pdev_modified_zeta_mv": {
+      "value": -3.2,
+      "unit": "mV",
+      "source_entity": "pdev_ginger_spermidine",
+      "evidence_class": "model_input",
+      "confidence": "not_assigned"
+    },
+
+    "gel_release_half_life_hours": {
+      "value": 14.6,
+      "unit": "hour",
+      "evidence_class": "experimental",
+      "confidence": "moderate"
+    },
+
+    "papp_cm_s": {
+      "value": 4.8e-05,
+      "unit": "cm/s",
+      "evidence_class": "model_input",
+      "confidence": "not_assigned"
+    },
+
+    "transit_time_minutes": {
+      "value": 22.4,
+      "unit": "min",
+      "evidence_class": "model_input",
+      "confidence": "not_assigned"
+    },
+
+    "mucociliary_clearance_retention_efficiency_pct": {
+      "value": 89.2,
+      "unit": "%",
+      "evidence_class": "model_input",
+      "confidence": "not_assigned"
+    },
+
+    "endosomal_escape_efficiency_pct": {
+      "value": 68.5,
+      "unit": "%",
+      "evidence_class": "model_input",
+      "confidence": "not_assigned"
+    },
+
+    "cas9_loading_efficiency_pct": {
+      "value": 34.2,
+      "unit": "%",
+      "evidence_class": "experimental",
+      "confidence": "moderate"
+    },
+
+    "intact_rnp_copies_per_vesicle": {
+      "value": 2.4,
+      "unit": "copies/vesicle",
+      "evidence_class": "experimental",
+      "confidence": "moderate"
+    }
+
+  },
+
+  "states": {
+
+    "motor_neuron_pathology": {
+      "entity": "motor_neuron",
+      "variables": [
+        "rna_foci",
+        "dpr_burden",
+        "dna_damage",
+        "caspase_activity",
+        "electrophysiological_activity",
+        "viability"
+      ]
+    },
+
+    "microglial_state": {
+      "entity": "microglia",
+      "variables": [
+        "nlrp3_activity",
+        "il_1_beta",
+        "tnf_alpha",
+        "reactive_oxygen_species",
+        "inflammatory_state"
+      ]
+    },
+
+    "pdev_state": {
+      "entity": "pdev_ginger_spermidine",
+      "variables": [
+        "extracellular_concentration",
+        "surface_charge",
+        "bound_fraction",
+        "internalized_fraction",
+        "endosomal_fraction",
+        "cytosolic_fraction",
+        "cargo_available"
+      ]
+    }
+
+  },
+
+  "relationships": [
+
+    {
+      "relationship_id": "r01",
+      "source": "c9orf72_repeat",
+      "target": "motor_neuron",
+      "type": "causes_pathology",
+      "mechanism": "RNA foci sequestration and DPR proteotoxicity"
+    },
+
+    {
+      "relationship_id": "r02",
+      "source": "nek1_variant",
+      "target": "motor_neuron",
+      "type": "contributes_to_pathology",
+      "mechanism": "Impaired DNA damage response"
+    },
+
+    {
+      "relationship_id": "r03",
+      "source": "pdev_ginger_spermidine",
+      "target": "motor_neuron",
+      "type": "internalized_by",
+      "mechanism": "Caveolae-mediated and polyamine-associated endocytosis"
+    },
+
+    {
+      "relationship_id": "r04",
+      "source": "six_shogaol",
+      "target": "nfkb",
+      "type": "inhibits",
+      "mechanism": "Nrf2 activation and NF-kB p65 suppression"
+    },
+
+    {
+      "relationship_id": "r05",
+      "source": "six_gingerol",
+      "target": "nlrp3",
+      "type": "inhibits",
+      "mechanism": "NLRP3 inflammasome inhibition and anti-ferroptotic lipid stabilization"
+    },
+
+    {
+      "relationship_id": "r06",
+      "source": "plant_mirna",
+      "target": "nfkb1_rela",
+      "type": "regulates",
+      "mechanism": "Sequence-dependent RNA interaction"
+    }
+
+  ],
+
+  "processes": {
+
+    "barrier_transport": {
+
+      "process_type": "transport",
+
+      "inputs": [
+        "pdev_ginger_spermidine"
+      ],
+
+      "source_compartment": "mucosal_surface",
+
+      "destination_compartment": "olfactory_interface",
+
+      "mechanism": {
+        "route": "Intranasal Nose-to-Brain via Perineural Olfactory Tract",
+        "apparent_permeability_papp_cm_s": 4.8e-05,
+        "trans_epithelial_transit_time_minutes": 22.4,
+        "mucociliary_clearance_retention_efficiency_pct": 89.2
+      }
+
+    },
+
+    "vesicle_release": {
+
+      "process_type": "release",
+
+      "carrier": "delivery_matrix",
+
+      "cargo": "pdev_ginger_spermidine",
+
+      "model": {
+        "type": "first_order",
+        "parameter": "gel_release_half_life_hours"
+      },
+
+      "equations": [
+        "dV/dt = -k_release*V"
+      ]
+
+    },
+
+    "vesicle_diffusion": {
+
+      "process_type": "spatial_transport",
+
+      "input": "pdev_ginger_spermidine",
+
+      "model": {
+        "type": "diffusion",
+        "equation": "dV/dt = D*laplacian(V)"
+      },
+
+      "parameters": [
+        "diffusion_coefficient"
+      ]
+
+    },
+
+    "vesicle_binding": {
+
+      "process_type": "binding",
+
+      "ligand": "pdev_ginger_spermidine",
+
+      "targets": [
+        "polyamine_transporter_complex",
+        "low_density_lipoprotein_receptor_related_protein_1",
+        "cd44_glycoprotein"
+      ],
+
+      "outputs": [
+        "bound_pdev"
+      ]
+
+    },
+
+    "cellular_uptake": {
+
+      "process_type": "uptake",
+
+      "input": "pdev_ginger_spermidine",
+
+      "targets": [
+        "motor_neuron",
+        "microglia"
+      ],
+
+      "mechanisms": [
+        "Caveolae-mediated endocytosis",
+        "Polyamine-associated endocytosis"
+      ],
+
+      "observations": {
+        "motor_neuron_4h_pct": 46.8,
+        "motor_neuron_12h_pct": 88.4,
+        "microglia_12h_pct": 94.1
+      }
+
+    },
+
+    "endosomal_escape": {
+
+      "process_type": "intracellular_transition",
+
+      "input_compartment": "endosome",
+
+      "output_compartment": "cytosol",
+
+      "efficiency_pct": 68.5,
+
+      "outputs": [
+        "cytosolic_cargo"
+      ]
+
+    },
+
+    "gene_editing": {
+
+      "process_type": "molecular_editing",
+
+      "payload": "cas9_rnp",
+
+      "target_entities": [
+        "c9orf72_repeat",
+        "nek1_variant"
+      ],
+
+      "outputs": [
+        "c9orf72_g4c2_repeat_cleavage",
+        "nek1_corrected_splicing"
+      ],
+
+      "reported_results": {
+        "c9orf72_g4c2_repeat_cleavage_efficiency_pct": 64.2,
+        "nek1_corrected_splicing_restoration_pct": 52.6
+      }
+
+    },
+
+    "rna_foci_reduction": {
+
+      "process_type": "downstream_pathology_modulation",
+
+      "input": "c9orf72_g4c2_repeat_cleavage",
+
+      "output": "intranuclear_rna_foci",
+
+      "reported_result": {
+        "reduction_pct": 71.8
+      }
+
+    },
+
+    "dpr_suppression": {
+
+      "process_type": "downstream_pathology_modulation",
+
+      "input": "intranuclear_rna_foci",
+
+      "output": "poly_gp_dpr",
+
+      "reported_result": {
+        "suppression_pct": 68.4
+      }
+
+    },
+
+    "neuroinflammatory_modulation": {
+
+      "process_type": "regulation",
+
+      "inputs": [
+        "six_shogaol",
+        "six_gingerol",
+        "plant_mirna"
+      ],
+
+      "target_entity": "microglia",
+
+      "outputs": [
+        "il_1_beta",
+        "tnf_alpha",
+        "reactive_oxygen_species"
+      ],
+
+      "reported_results": {
+        "il_1_beta_reduction_pct": 84.1,
+        "tnf_alpha_reduction_pct": 79.5
+      }
+
+    },
+
+    "neuronal_function_rescue": {
+
+      "process_type": "phenotypic_response",
+
+      "inputs": [
+        "dpr_suppression",
+        "neuroinflammatory_modulation",
+        "nek1_corrected_splicing"
+      ],
+
+      "outputs": [
+        "motor_neuron_mea_firing_frequency",
+        "motor_neuron_viability",
+        "cleaved_caspase_3"
+      ],
+
+      "reported_results": {
+        "motor_neuron_mea_firing_frequency_restoration_pct": 65.4,
+        "cleaved_caspase_3_apoptosis_inhibition_pct": 76.2
+      }
+
+    }
+
+  },
+
+  "cargo_architecture": {
+
+    "cas9_rnp": {
+
+      "entity": "cas9_rnp",
+
+      "encapsulation_method": "Electroporation (400 V, 125 uF) in Opti-MEM",
+
+      "loading_efficiency_pct": 34.2,
+
+      "intact_rnp_copies_per_vesicle": 2.4
+
+    },
+
+    "endogenous_phytochemicals": [
+      "six_shogaol",
+      "six_gingerol"
+    ],
+
+    "cross_kingdom_rna": [
+      "plant_mirna"
+    ]
+
+  },
+
+  "interventions": {
+
+    "untreated": {
+      "type": "control",
+      "base_entities": [],
+      "modifications": []
+    },
+
+    "native_ginger_pdev": {
+      "type": "vesicle_addition",
+      "base_entity": "pdev_ginger",
+      "modifications": [],
+      "cargo": []
+    },
+
+    "spermidine_ginger_pdev": {
+      "type": "vesicle_addition",
+      "base_entity": "pdev_ginger_spermidine",
+      "modifications": [],
+      "cargo": []
+    },
+
+    "spermidine_ginger_pdev_with_rnp": {
+      "type": "vesicle_addition",
+      "base_entity": "pdev_ginger_spermidine",
+      "modifications": [],
+      "cargo": [
+        "cas9_rnp"
+      ]
+    }
+
+  },
+
+  "perturbations": [
+
+    {
+      "perturbation_id": "p01",
+      "type": "add_entity",
+      "target": "pdev_ginger_spermidine",
+      "amount": null,
+      "unit": "particles/mL",
+      "time": 0,
+      "user_modifiable": true
+    },
+
+    {
+      "perturbation_id": "p02",
+      "type": "modify_parameter",
+      "target": "pdev_modified_zeta_mv",
+      "value": -3.2,
+      "unit": "mV",
+      "user_modifiable": true
+    },
+
+    {
+      "perturbation_id": "p03",
+      "type": "modify_parameter",
+      "target": "pdev_size_nm",
+      "value": 132.4,
+      "unit": "nm",
+      "user_modifiable": true
+    },
+
+    {
+      "perturbation_id": "p04",
+      "type": "modify_parameter",
+      "target": "surface_density_molecules_per_nm2",
+      "value": 14.2,
+      "unit": "molecules/nm2",
+      "user_modifiable": true
+    },
+
+    {
+      "perturbation_id": "p05",
+      "type": "modify_cargo",
+      "target": "cas9_rnp",
+      "enabled": true,
+      "user_modifiable": true
+    }
+
+  ],
+
+  "observables": {
+
+    "transport": [
+
+      {
+        "id": "pdev_barrier_transit",
+        "unit": "min",
+        "baseline": null
+      },
+
+      {
+        "id": "barrier_permeability",
+        "unit": "cm/s",
+        "baseline": null
+      }
+
+    ],
+
+    "uptake": [
+
+      {
+        "id": "motor_neuron_pdev_uptake",
+        "unit": "%",
+        "baseline": 0
+      },
+
+      {
+        "id": "microglia_pdev_uptake",
+        "unit": "%",
+        "baseline": 0
+      }
+
+    ],
+
+    "molecular": [
+
+      {
+        "id": "c9orf72_g4c2_repeat_cleavage",
+        "unit": "%",
+        "baseline": null
+      },
+
+      {
+        "id": "intranuclear_rna_foci",
+        "unit": "%",
+        "baseline": 78.4
+      },
+
+      {
+        "id": "poly_gp_dpr",
+        "unit": "pg/mL",
+        "baseline": 450.2
+      },
+
+      {
+        "id": "nek1_corrected_splicing",
+        "unit": "%",
+        "baseline": null
+      }
+
+    ],
+
+    "inflammatory": [
+
+      {
+        "id": "il_1_beta",
+        "unit": "pg/mL",
+        "baseline": 125.6
+      },
+
+      {
+        "id": "tnf_alpha",
+        "unit": "pg/mL",
+        "baseline": 310.4
+      },
+
+      {
+        "id": "reactive_oxygen_species",
+        "unit": "RFU",
+        "baseline": 1890
+      }
+
+    ],
+
+    "phenotypic": [
+
+      {
+        "id": "motor_neuron_mea_firing_frequency",
+        "unit": "Hz",
+        "baseline": 1.2
+      },
+
+      {
+        "id": "motor_neuron_viability",
+        "unit": "%",
+        "baseline": null
+      },
+
+      {
+        "id": "cleaved_caspase_3",
+        "unit": "fold",
+        "baseline": 3.8
+      }
+
+    ],
+
+    "toxicity": [
+
+      {
+        "id": "imn_cell_viability",
+        "unit": "%",
+        "baseline": null
+      },
+
+      {
+        "id": "img_cell_viability",
+        "unit": "%",
+        "baseline": null
+      },
+
+      {
+        "id": "membrane_lysis_hemolytic_score",
+        "unit": "%",
+        "baseline": null
+      },
+
+      {
+        "id": "off_target_cleavage_risk",
+        "unit": "score_1_to_10",
+        "baseline": null
+      },
+
+      {
+        "id": "immunogenicity_complement_activation_risk",
+        "unit": "categorical",
+        "baseline": null
+      }
+
+    ]
+
+  },
+
+  "mathematical_models": {
+
+    "il1b_dynamics": {
+
+      "model_type": "ode",
+
+      "variables": [
+
+        {
+          "id": "il1b",
+          "symbol": "I",
+          "unit": "pg/mL"
+        },
+
+        {
+          "id": "nlrp3_activity",
+          "symbol": "N",
+          "unit": "relative_activity"
+        }
+
+      ],
+
+      "parameters": [
+
+        {
+          "id": "production_rate",
+          "symbol": "k_prod",
+          "unit": "pg/mL/hour"
+        },
+
+        {
+          "id": "degradation_rate",
+          "symbol": "k_deg",
+          "unit": "1/hour"
+        }
+
+      ],
+
+      "equations": [
+        "dI/dt = k_prod*N - k_deg*I"
+      ],
+
+      "initial_conditions": {
+        "I": 125.6,
+        "N": 1.0
+      },
+
+      "symbolic_backend": "sympy"
+    },
+
+    "vesicle_release": {
+
+      "model_type": "ode",
+
+      "variables": [
+        {
+          "id": "vesicle_amount",
+          "symbol": "V",
+          "unit": "particles"
+        }
+      ],
+
+      "parameters": [
+        {
+          "id": "release_rate",
+          "symbol": "k_rel",
+          "unit": "1/hour"
+        }
+      ],
+
+      "equations": [
+        "dV/dt = -k_rel*V"
+      ],
+
+      "initial_conditions": {
+        "V": null
+      },
+
+      "symbolic_backend": "sympy"
+    },
+
+    "pdev_transport": {
+
+      "model_type": "pde",
+
+      "variables": [
+        {
+          "id": "pdev_concentration",
+          "symbol": "V",
+          "unit": "particles/volume"
+        }
+      ],
+
+      "parameters": [
+        {
+          "id": "diffusion_coefficient",
+          "symbol": "D",
+          "unit": "length^2/time"
+        }
+      ],
+
+      "equations": [
+        "dV/dt = D*laplacian(V)"
+      ],
+
+      "boundary_conditions": [],
+
+      "initial_conditions": {},
+
+      "symbolic_backend": "sympy"
+    },
+
+    "hybrid_pathology_model": {
+
+      "model_type": "hybrid",
+
+      "continuous_components": [
+        "il1b_dynamics",
+        "vesicle_release",
+        "pdev_transport"
+      ],
+
+      "discrete_components": [
+        "vesicle_binding",
+        "vesicle_internalization",
+        "endosomal_escape",
+        "gene_editing",
+        "cell_death"
+      ],
+
+      "spatial_components": [
+        "barrier_transport",
+        "vesicle_diffusion"
+      ],
+
+      "population_components": [
+        "motor_neuron",
+        "microglia"
+      ]
+
+    }
+
+  },
+
+  "petri_net": {
+
+    "enabled": true,
+
+    "places": [
+
+      {
+        "id": "pdev_extracellular",
+        "entity": "pdev_ginger_spermidine",
+        "state": "extracellular"
+      },
+
+      {
+        "id": "pdev_bound",
+        "entity": "pdev_ginger_spermidine",
+        "state": "receptor_bound"
+      },
+
+      {
+        "id": "pdev_endosome",
+        "entity": "pdev_ginger_spermidine",
+        "state": "endosomal"
+      },
+
+      {
+        "id": "pdev_cytosol",
+        "entity": "pdev_ginger_spermidine",
+        "state": "cytosolic"
+      },
+
+      {
+        "id": "cargo_available",
+        "entity": "cas9_rnp",
+        "state": "available"
+      },
+
+      {
+        "id": "gene_edited",
+        "entity": "motor_neuron",
+        "state": "edited"
+      }
+
+    ],
+
+    "transitions": [
+
+      {
+        "id": "bind_receptor",
+        "inputs": [
+          "pdev_extracellular"
+        ],
+        "outputs": [
+          "pdev_bound"
+        ],
+        "rate_parameter": "binding_rate"
+      },
+
+      {
+        "id": "internalize",
+        "inputs": [
+          "pdev_bound"
+        ],
+        "outputs": [
+          "pdev_endosome"
+        ],
+        "rate_parameter": "uptake_rate"
+      },
+
+      {
+        "id": "escape_endosome",
+        "inputs": [
+          "pdev_endosome"
+        ],
+        "outputs": [
+          "pdev_cytosol"
+        ],
+        "rate_parameter": "escape_rate"
+      },
+
+      {
+        "id": "release_cargo",
+        "inputs": [
+          "pdev_cytosol"
+        ],
+        "outputs": [
+          "cargo_available"
+        ],
+        "rate_parameter": "cargo_release_rate"
+      },
+
+      {
+        "id": "perform_editing",
+        "inputs": [
+          "cargo_available"
+        ],
+        "outputs": [
+          "gene_edited"
+        ],
+        "rate_parameter": "editing_rate"
+      }
+
+    ]
+
+  },
+
+  "simulation": {
+
+    "engine": {
+
+      "primary": "hybrid",
+
+      "supported_compilers": [
+        "petri_net",
+        "agent_based",
+        "reaction_network",
+        "ode",
+        "pde",
+        "stochastic",
+        "sympy"
+      ]
+
+    },
+
+    "time": {
+      "start": 0,
+      "end": 48,
+      "unit": "hour",
+      "step": null
+    },
+
+    "space": {
+
+      "enabled": true,
+
+      "dimensions": 2,
+
+      "unit": "um",
+
+      "geometry": "user_defined",
+
+      "spatial_resolution": null
+
+    },
+
+    "stochasticity": {
+
+      "enabled": true,
+
+      "seed": null,
+
+      "distribution_defaults": {
+        "biological_event": "poisson",
+        "measurement_noise": "normal"
+      }
+
+    },
+
+    "population_model": {
+
+      "enabled": true,
+
+      "representation": "agent_or_population_hybrid",
+
+      "allow_individual_cell_state": true,
+
+      "allow_population_level_state": true
+
+    },
+
+    "replicates": 3
+
+  },
+
+  "experiments": [
+
+    {
+
+      "experiment_id": "baseline_vs_pdev",
+
+      "pathology_model": "ALS/FTD_C9orf72_NEK1",
+
+      "conditions": [
+        "untreated",
+        "native_ginger_pdev",
+        "spermidine_ginger_pdev",
+        "spermidine_ginger_pdev_with_rnp"
+      ],
+
+      "controlled_variables": [
+        "temperature",
+        "cell_density",
+        "medium_composition",
+        "simulation_duration"
+      ],
+
+      "measured_observables": [
+        "c9orf72_g4c2_repeat_cleavage",
+        "intranuclear_rna_foci",
+        "poly_gp_dpr",
+        "nek1_corrected_splicing",
+        "il_1_beta",
+        "tnf_alpha",
+        "reactive_oxygen_species",
+        "motor_neuron_mea_firing_frequency",
+        "motor_neuron_viability",
+        "cleaved_caspase_3"
+      ]
+
+    }
+
+  ],
+
+  "outputs": {
+
+    "simulation_state": {
+      "format": "time_series",
+      "include_entity_state": true,
+      "include_spatial_state": true,
+      "include_event_log": true
+    },
+
+    "petri_dish": {
+
+      "render_entities": true,
+
+      "render_compartments": true,
+
+      "render_interactions": true,
+
+      "render_concentration_gradients": true,
+
+      "render_transport": true,
+
+      "render_cell_state": true,
+
+      "render_pdev_state": true
+
+    },
+
+    "comparison": {
+
+      "enabled": true,
+
+      "baseline_condition": "untreated",
+
+      "compare_all_conditions": true,
+
+      "include_effect_size": true,
+
+      "include_uncertainty": true
+
+    },
+
+    "symbolic": {
+
+      "enabled": true,
+
+      "backend": "sympy",
+
+      "export": [
+        "equations",
+        "symbols",
+        "parameters",
+        "initial_conditions",
+        "boundary_conditions",
+        "assumptions",
+        "dependency_graph"
+      ]
+
+    },
+
+    "reported_example_outputs": {
+
+      "c9orf72_g4c2_repeat_cleavage_efficiency_pct": 64.2,
+
+      "intranuclear_rna_foci_reduction_pct": 71.8,
+
+      "poly_gp_dpr_protein_suppression_pct": 68.4,
+
+      "nek1_corrected_splicing_restoration_pct": 52.6,
+
+      "microglial_il_1_beta_secretion_reduction_pct": 84.1,
+
+      "microglial_tnf_alpha_reduction_pct": 79.5,
+
+      "motor_neuron_mea_firing_frequency_restoration_pct": 65.4,
+
+      "cleaved_caspase_3_apoptosis_inhibition_pct": 76.2,
+
+      "imn_cell_viability_pct_at_48h": 96.8,
+
+      "img_cell_viability_pct_at_48h": 98.2,
+
+      "membrane_lysis_hemolytic_score_pct": 0.04,
+
+      "off_target_cleavage_risk_index_score_1_to_10": 1.2,
+
+      "immunogenicity_complement_activation_risk": "Negative / Non-significant"
+
+    }
+
+  },
+
+  "alternative_engineered_templates": {
+
+    "ovarian_tumor_peritoneal_depot": {
+
+      "source": "Artemisia argyi (Moxa)",
+
+      "pdev_variant": "Moxa-EV-Pluronic-Depot",
+
+      "matrix": "Thermoresponsive Injectable Gel (Phase transition at 35°C)",
+
+      "target_site": "Intraperitoneal malignant ascites / Ovarian tumor bed",
+
+      "mechanism": "Zero-order sustained release of sesquiterpenoids preventing peritoneal clearance"
+
+    },
+
+    "endometriosis_targeted_carrier": {
+
+      "source": "Citrus paradisi (Grapefruit) or Zingiber",
+
+      "surface_ligand": "Hyaluronic Acid (HA, MW 50 kDa)",
+
+      "target_receptor": "CD44-overexpressing ectopic endometriotic stromal cells",
+
+      "mechanism": "Receptor-mediated endocytosis into ectopic lesions, sparing normal pelvic peritoneum"
+
+    },
+
+    "breast_cancer_sentinel_lymphatic_depot": {
+
+      "source": "Camellia sinensis (Green Tea)",
+
+      "route": "Peritumoral Intradermal Injection",
+
+      "target_site": "Axillary Sentinel Lymph Node Basin",
+
+      "mechanism": "Exploits 50-120 nm lymphatic capillary fenestrations to reprogram immunosuppressive TAMs"
+
+    }
+
+  },
+
+  "grounded_evidence_citations": [
+
+    {
+
+      "pmid": "24993885",
+
+      "citation": "Scientific evaluation of ancient herbo-mineral calcinated formulations and nano-oxide delivery.",
+
+      "supports": [
+        "Nanoparticle surface bio-scaffolding and membrane stabilization."
+      ],
+
+      "evidence_class": "experimental"
+
+    },
+
+    {
+
+      "pmid": "35775266",
+
+      "citation": "Bioactive plant nanovesicles and their cellular uptake mechanisms via lipid rafts.",
+
+      "supports": [
+        "Caveolae-mediated endocytosis and membrane fusion kinetics."
+      ],
+
+      "evidence_class": "experimental"
+
+    },
+
+    {
+
+      "pmid": "32539256",
+
+      "citation": "Exosome-like nanoparticles from ginger regulate cellular homoeostasis and suppress NLRP3 inflammasome.",
+
+      "supports": [
+        "6-shogaol and 6-gingerol encapsulation concentrations and IL-1beta suppression."
+      ],
+
+      "evidence_class": "experimental"
+
+    },
+
+    {
+
+      "pmid": "31927019",
+
+      "citation": "Intranasal delivery across the cribriform plate bypassing the blood-brain barrier for neurodegenerative therapy.",
+
+      "supports": [
+        "Papp permeability coefficient and olfactory mucosal transit kinetics."
+      ],
+
+      "evidence_class": "experimental"
+
+    }
+
+  ],
+
+  "validation": {
+
+    "status": "not_validated_as_a_whole",
+
+    "requirements": [
+
+      "Parameter-level provenance",
+
+      "Dimensional/unit validation",
+
+      "Mass-balance validation where applicable",
+
+      "Model identifiability assessment",
+
+      "Sensitivity analysis",
+
+      "Uncertainty propagation",
+
+      "Independent experimental comparison",
+
+      "Boundary-condition validation",
+
+      "Initial-condition validation",
+
+      "Numerical stability testing",
+
+      "Comparison against experimental time-series data"
+
+    ],
+
+    "rules": {
+
+      "do_not_promote_model_output_to_fact": true,
+
+      "preserve_user_modifications": true,
+
+      "preserve_original_evidence": true,
+
+      "flag_missing_parameters": true,
+
+      "flag_unit_mismatch": true,
+
+      "flag_unidentified_variables": true,
+
+      "flag_unsupported_relationships": true,
+
+      "flag_dimensionally_invalid_equations": true
+
+    }
+
+  },
+
+  "schema_semantics": {
+
+    "entity": "A biological, chemical, physical, pathological, or engineered object represented in the model.",
+
+    "compartment": "A spatial or conceptual region in which entities and processes occur.",
+
+    "parameter": "A numerical or categorical value used by a model.",
+
+    "state": "A value that may change during simulation.",
+
+    "process": "A transformation, transport, reaction, interaction, or event that changes state.",
+
+    "relationship": "A semantic biological connection between entities.",
+
+    "intervention": "A reusable treatment, engineered PDEV, control, or experimental condition.",
+
+    "perturbation": "A user- or experiment-defined change to an existing model.",
+
+    "observable": "A quantity intended to be measured, simulated, or reported.",
+
+    "mathematical_model": "A formal mathematical representation of one or more biological processes.",
+
+    "petri_net": "A discrete state-transition representation of biological entities and events.",
+
+    "provenance": "The evidence, inference, assumption, estimation, or modification lineage associated with model content.",
+
+    "compiler": "A translation layer that converts the declarative biological model into an executable simulation representation."
+
+  },
+
+  "compiler_contract": {
+
+    "input": "This declarative biological model.",
+
+    "required_resolution_steps": [
+
+      "Resolve all entity identifiers.",
+
+      "Resolve all compartment identifiers.",
+
+      "Resolve relationships between entities.",
+
+      "Resolve process inputs and outputs.",
+
+      "Resolve state variables.",
+
+      "Resolve parameter values and units.",
+
+      "Resolve initial conditions.",
+
+      "Resolve boundary conditions where applicable.",
+
+      "Resolve intervention and perturbation definitions.",
+
+      "Construct the biological dependency graph.",
+
+      "Validate dimensional consistency.",
+
+      "Validate dependency completeness.",
+
+      "Separate evidence-backed inputs from model-derived outputs."
+
+    ],
+
+    "supported_outputs": [
+
+      "Interactive Petri-dish state",
+
+      "Agent-based simulation",
+
+      "Population simulation",
+
+      "Petri net",
+
+      "Reaction network",
+
+      "ODE system",
+
+      "PDE system",
+
+      "Stochastic model",
+
+      "Hybrid model",
+
+      "SymPy symbolic model",
+
+      "Comparative experiment report",
+
+      "Time-series data",
+
+      "Causal/interactions graph"
+
+    ],
+
+    "provenance_requirements": [
+
+      "Return provenance with parameters.",
+
+      "Return provenance with relationships.",
+
+      "Return provenance with model assumptions.",
+
+      "Return provenance with simulation outputs.",
+
+      "Record every user perturbation.",
+
+      "Distinguish measured values from inferred values.",
+
+      "Distinguish model inputs from model-derived outputs."
+
+    ]
+
+  },
+
+  "future_schema_extensions": {
+
+    "ontology_mapping": {
+
+      "enabled": true,
+
+      "purpose": "Permit entities to map to external biological ontologies without requiring ontology identifiers for every model."
+
+    },
+
+    "uncertainty": {
+
+      "enabled": true,
+
+      "supported_forms": [
+        "range",
+        "standard_deviation",
+        "confidence_interval",
+        "probability_distribution",
+        "qualitative_confidence"
+      ]
+    },
+
+    "sensitivity_analysis": {
+
+      "enabled": true,
+
+      "methods": [
+        "local_sensitivity",
+        "global_sensitivity",
+        "parameter_sweep",
+        "monte_carlo"
+      ]
+
+    },
+
+    "scenario_generation": {
+
+      "enabled": true,
+
+      "purpose": "Generate systematic treatment, PDEV engineering, pathology, dose, timing, and parameter perturbation scenarios."
+    },
+
+    "model_calibration": {
+
+      "enabled": true,
+
+      "purpose": "Fit unknown model parameters against experimental observations without overwriting the original evidence-backed values."
+    }
+
+  }
+
+}
